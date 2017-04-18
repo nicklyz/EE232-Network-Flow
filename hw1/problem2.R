@@ -23,6 +23,7 @@ large_modularity <- modularity(large_community_structure)
 
 #2d
 #repeat the process for 1000 times and collect degree
+deg_nj <- numeric()
 for (i in 1:1000) {
     #random generate a number within 1000
     n_i <- sample(1000, 1)
@@ -36,10 +37,8 @@ for (i in 1:1000) {
     } else {
         n_j <- sample(neighbor_list, 1)
     }
-    if (i == 1) {
-        deg_nj <- degree(fat_tail_network, n_j)
-    } else {
-        deg_nj <- c(deg_nj, degree(fat_tail_network, n_j))
-    }
+    
+    deg_nj <- c(deg_nj, degree(fat_tail_network, n_j))
+    
 }
 hist(deg_nj, col=rgb(0,0,1,.4), xlim=c(0,30), ylim=c(0,600), xlab="degree", ylab="freq", main="Degree Distrubution of jth node")
