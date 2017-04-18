@@ -1,21 +1,22 @@
 library(igraph)
 
 # part(a)
-g <- sample_forestfire(10000, fw.prob=0.37, bw.factor=0.32/0.37)
+forest_fire_graph <- forest.fire.game(1000, fw.prob=0.37, bw.factor=0.32/0.37)
 # in-degree distribution
-dd1 <- degree_distribution(g, mode="in")
-plot(dd1)
-# out-degree distribution
-dd2 <- degree_distribution(g, mode="out")
-plot(dd2)
+in_degree <- degree.distribution(forest_fire_graph, mode="in")
+barplot(in_degree, main="In Degree Distribution")
+
+# out-degree distribution 
+out_degree <- degree.distribution(forest_fire_graph, mode="out")
+barplot(out_degree, main="Out Degree Distribution")
 
 # part(b)
 # find the diameter of the network
-diameter <- diameter(g)
+diameter <- diameter(forest_fire_graph)
 
 # part(c)
 # find the community structure of the network
-community_structure <- fastgreedy.community(as.undirected(g))
+community_structure <- fastgreedy.community(as.undirected(forest_fire_graph))
 
 # find the modularity of the structure
 modularity <- community_structure$modularity
