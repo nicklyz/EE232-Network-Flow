@@ -14,7 +14,7 @@ degree <- degree(random_network)
 visit_probability <- random_walk_seq$ave.visit.prob
 
 # Plot degree vs probability that the walker visits each node to examine the relationship
-plot(degree, visit_probability)
+plot(degree, visit_probability, main="Degree vs Visit Probability")
 # Print correlation coefficient
 correlation_coefficient <- cor(degree, visit_probability)
 
@@ -31,7 +31,7 @@ degree <- degree(random_network)
 visit_probability <- random_walk_seq$ave.visit.prob
 
 # Plot degree vs probability that the walker visits each node to examine the relationship
-plot(degree, visit_probability)
+plot(degree, visit_probability, main="Degree vs Visit Probability")
 # Print correlation coefficient
 correlation_coefficient <- cor(degree, visit_probability)
 
@@ -48,6 +48,6 @@ degree <- degree(random_network)
 visit_probability <- random_walk_seq$ave.visit.prob
 
 # Plot degree vs probability that the walker visits each node to examine the relationship
-plot(degree, visit_probability)
+plot(degree, visit_probability, main="Degree vs Visit Probability")
 # Print correlation coefficient
 correlation_coefficient <- cor(degree, visit_probability)
