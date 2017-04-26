@@ -2,8 +2,8 @@ library(igraph)
 library(netrw)
 
 # reusable function for creating random network with different size
-random_walk_function = function(num_node, prob, num_step) {
-  g = erdos.renyi.game(num_node, prob, directed=FALSE)
+random_walk_function = function(num_node, num_step) {
+  g = barabasi.game(num_node, directed=FALSE)
   cat("Diameter of the random network with", num_node, "nodes:", diameter(g))
   average_distance_t = numeric()
   average_standard_deviation_t = numeric()
@@ -45,11 +45,10 @@ random_walk_function = function(num_node, prob, num_step) {
 
 # part (a) and part (b)
 cat("Part a & b, Random Network with 1000 nodes")
-random_walk_function(1000, 0.01, 20)
+random_walk_function(1000, 60)
 
 # part (d)
 cat("Part d, Random Network with 100 nodes")
-random_walk_function(100, 0.01, 40)
+random_walk_function(100, 40)
 cat("Part d, Random Network with 10000 nodes")
-random_walk_function(10000, 0.01, 10)
-
+random_walk_function(10000, 40)
