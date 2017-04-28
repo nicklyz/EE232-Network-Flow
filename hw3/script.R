@@ -13,18 +13,21 @@ connectivity <- is.connected(graph)
 # get giant connected component
 if (!connectivity) {
   cl <- clusters(graph);
-  gccIndex <- which.max(cl$size)
+  gccIndex <- which.max(cl$csize)
   nonGccNodes <- (1:vcount(graph))[cl$membership != gccIndex]
   gcc <- delete.vertices(graph, nonGccNodes)
 }
+# compare graph size with gcc
+vcount(graph)
+vcount(gcc)
 
 # Problem 2
 # in degree distribution
 in_dist = degree.distribution(gcc, mode="in")
-plot(in_dist, main="In Degree Distribution")
+plot(in_dist, main="In Degree Distribution of GCC", ylab="distribution", xlab="In Degree")
 # out degree distribution
 out_dist = degree.distribution(gcc, mode="out")
-plot(out_dist, main="Out Degree Distribution")
+plot(out_dist, main="Out Degree Distribution of GCC", ylab="distribution", xlab="Out Degree")
 
 
 # NOTE: get weights of the Edges E(g)$Weight
