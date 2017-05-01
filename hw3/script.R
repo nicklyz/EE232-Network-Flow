@@ -3,7 +3,7 @@ library(netrw)
 
 # Problem 1
 # load data
-df = read.table("sorted_directed_net.txt", sep='\t', header=FALSE)
+df = read.table("~/Documents/EE 232E/EE232-Network-Flow/hw3/sorted_directed_net.txt", sep='\t', header=FALSE)
 colnames(df) = c("Node1", "Node2", "Weight")
 # create graph from data
 graph = graph.data.frame(df, directed=TRUE)
@@ -93,7 +93,7 @@ for (each_vertex in 1:length(V(graph))) {
   }
   
   if (length(which(M_i > threshold)) >= 2) {
-    nodes_belonging_to_multiple_community <- rbind(multi_community, c(each_vertex, M_i))
+    nodes_belonging_to_multiple_community <- rbind(nodes_belonging_to_multiple_community, c(each_vertex, M_i))
   }
 }
 
