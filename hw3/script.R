@@ -3,7 +3,7 @@ library(netrw)
 
 # Problem 1
 # load data
-df = read.table("sorted_directed_net.txt", sep='\t', header=FALSE)
+df = read.table("~/Documents/EE 232E/EE232-Network-Flow/hw3/sorted_directed_net.txt", sep='\t', header=FALSE)
 colnames(df) = c("Node1", "Node2", "Weight")
 # create graph from data
 graph = graph.data.frame(df, directed=TRUE)
@@ -49,5 +49,52 @@ largest_community <- induced.subgraph(ug2, which(community_fastgreedy2$membershi
 sub_community <- fastgreedy.community(largest_community, weights=E(largest_community)$weights)
 sizes(sub_community)
 
+# Problem 5
+# Creating a list to store all subgraphs
+sub_graphs <- c()
+# Creating a list to store all sub-communities
+sub_communities <- c()
+# Getting the indexes of community that has 100+ size
+indexes_community_fastgreedy2_larger_than_100 <- which(sizes(community_fastgreedy2) > 100)
 
+# For every community that has size 100 or greater
+for (index in indexes_community_fastgreedy2_larger_than_100) {
+  vertices_of_sub_graphs <- c()
+  for (each_vertex in V(ug2)) {
+    if (community_fastgreedy2$membership[each_vertex] == index) {
+      vertices_of_sub_graphs <- append(vertices_of_sub_graphs, each_vertex)
+    }
+  }
+  # A subgraph obtained from looking at all vertices
+  sub_graph <- induced.subgraph(ug2, vids=vertices_of_sub_graphs)
+  # Append it to the list of subgraphs / subcommunities
+  sub_graphs <- append(sub_graphs, sub_graph)
+  sub_communities <- append(communities, fastgreedy.community(sub_graph))
+}
 
+sub_communities
+length(indexes_community_fastgreedy2_larger_than_100)
+
+# Problem 6
+nodes_belonging_to_multiple_community <- c()
+threshold <- 0.2
+for (each_vertex in 1:length(V(graph))) {
+  teleportation_probability = rep(0, vcount(graph))
+  teleportation_probability[each_vertex] = 1
+  random_walk <- netrw(graph, walker.num = 1, start.node=each_vertex, damping = 0.85, teleport.prob = teleportation_probability, output.visit.prob = TRUE)
+  sorted_visit_probability <- sort(random_walk$ave.visit.prob, decreasing = TRUE, index.return = TRUE)
+  M_i <- rep(0, length(community_propagation1))
+  
+  for (j in 1:30) {
+   m_j <- rep(0, length(community_propagation1))
+   vertex_index <- which(V(gcc) == V(graph)[sorted_visit_probability$ix[j]])
+   m_j[community_propagation1$membership[vertex_index]] <- 1
+   M_i <- M_i + sorted_visit_probability$x[j] * m_j
+  }
+  
+  if (length(which(M_i > threshold)) >= 2) {
+    nodes_belonging_to_multiple_community <- rbind(multi_community, c(each_vertex, M_i))
+  }
+}
+
+nodes_belonging_to_multiple_community
