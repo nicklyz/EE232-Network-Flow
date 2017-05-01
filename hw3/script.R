@@ -67,13 +67,12 @@ for (index in indexes_community_fastgreedy2_larger_than_100) {
   }
   # A subgraph obtained from looking at all vertices
   sub_graph <- induced.subgraph(ug2, vids=vertices_of_sub_graphs)
-  # Append it to the list of subgraphs / subcommunities
-  sub_graphs <- append(sub_graphs, sub_graph)
-  sub_communities <- append(communities, fastgreedy.community(sub_graph))
-}
 
-sub_communities
-length(indexes_community_fastgreedy2_larger_than_100)
+  # Finding sub-community from subgraph
+  sub_community <- fastgreedy.community(sub_graph)
+  # Print size of the found sub-community along with number of nodes belonging in subcommunity
+  print(size(sub_community))
+}
 
 # Problem 6
 nodes_belonging_to_multiple_community <- c()
