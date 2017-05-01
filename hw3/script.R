@@ -3,7 +3,7 @@ library(netrw)
 
 # Problem 1
 # load data
-df = read.table("~/Documents/EE 232E/EE232-Network-Flow/hw3/sorted_directed_net.txt", sep='\t', header=FALSE)
+df = read.table("sorted_directed_net.txt", sep='\t', header=FALSE)
 colnames(df) = c("Node1", "Node2", "Weight")
 # create graph from data
 graph = graph.data.frame(df, directed=TRUE)
@@ -77,18 +77,18 @@ length(indexes_community_fastgreedy2_larger_than_100)
 
 # Problem 6
 nodes_belonging_to_multiple_community <- c()
-threshold <- 0.2
+threshold <- 0.1
 for (each_vertex in 1:length(V(graph))) {
   teleportation_probability = rep(0, vcount(graph))
   teleportation_probability[each_vertex] = 1
   random_walk <- netrw(graph, walker.num = 1, start.node=each_vertex, damping = 0.85, teleport.prob = teleportation_probability, output.visit.prob = TRUE)
   sorted_visit_probability <- sort(random_walk$ave.visit.prob, decreasing = TRUE, index.return = TRUE)
-  M_i <- rep(0, length(community_propagation1))
+  M_i <- rep(0, length(community_fastgreedy2))
   
   for (j in 1:30) {
-   m_j <- rep(0, length(community_propagation1))
+   m_j <- rep(0, length(community_fastgreedy2))
    vertex_index <- which(V(gcc) == V(graph)[sorted_visit_probability$ix[j]])
-   m_j[community_propagation1$membership[vertex_index]] <- 1
+   m_j[community_fastgreedy2$membership[vertex_index]] <- 1
    M_i <- M_i + sorted_visit_probability$x[j] * m_j
   }
   
