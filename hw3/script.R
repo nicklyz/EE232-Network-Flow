@@ -72,7 +72,6 @@ for (index in indexes_community_fastgreedy2_larger_than_100) {
   }
   # A subgraph obtained from looking at all vertices
   sub_graph <- induced.subgraph(ug2, vids=vertices_of_sub_graphs)
-<<<<<<< HEAD
   
   # Finding sub-community from subgraph
   sub_community <- fastgreedy.community(sub_graph)
@@ -102,35 +101,4 @@ for (each_vertex in 1:length(V(graph))) {
   }
 }
 
-=======
-
-  # Finding sub-community from subgraph
-  sub_community <- fastgreedy.community(sub_graph)
-  # Print size of the found sub-community along with number of nodes belonging in subcommunity
-  print(size(sub_community))
-}
-
-# Problem 6
-nodes_belonging_to_multiple_community <- c()
-threshold <- 0.1
-for (each_vertex in 1:length(V(graph))) {
-  teleportation_probability = rep(0, vcount(graph))
-  teleportation_probability[each_vertex] = 1
-  random_walk <- netrw(graph, walker.num = 1, start.node=each_vertex, damping = 0.85, teleport.prob = teleportation_probability, output.visit.prob = TRUE)
-  sorted_visit_probability <- sort(random_walk$ave.visit.prob, decreasing = TRUE, index.return = TRUE)
-  M_i <- rep(0, length(community_fastgreedy2))
-  
-  for (j in 1:30) {
-   m_j <- rep(0, length(community_fastgreedy2))
-   vertex_index <- which(V(gcc) == V(graph)[sorted_visit_probability$ix[j]])
-   m_j[community_fastgreedy2$membership[vertex_index]] <- 1
-   M_i <- M_i + sorted_visit_probability$x[j] * m_j
-  }
-  
-  if (length(which(M_i > threshold)) >= 2) {
-    nodes_belonging_to_multiple_community <- rbind(nodes_belonging_to_multiple_community, c(each_vertex, M_i))
-  }
-}
-
->>>>>>> c82fced47540def90a639f21a0e3361477debd00
 nodes_belonging_to_multiple_community
