@@ -12,7 +12,7 @@ connectivity <- is.connected(graph)
 
 # get giant connected component
 cluster <- clusters(graph);
-gcc <- induced_subgraph(graph, which(cluster$membership == which.max(cluster$csize)))
+gcc <- induced.subgraph(graph, which(cluster$membership == which.max(cluster$csize)))
 # compare graph size with gcc
 vcount(graph)
 vcount(gcc)
@@ -76,12 +76,12 @@ for (index in indexes_community_fastgreedy2_larger_than_100) {
   # Finding sub-community from subgraph
   sub_community <- fastgreedy.community(sub_graph)
   # Print size of the found sub-community along with number of nodes belonging in subcommunity
-  print(size(sub_community))
+  print(sizes(sub_community))
 }
 
 # Problem 6
 nodes_belonging_to_multiple_community <- c()
-threshold <- 0.1
+threshold <- 0.3
 for (each_vertex in 1:length(V(graph))) {
   teleportation_probability = rep(0, vcount(graph))
   teleportation_probability[each_vertex] = 1
