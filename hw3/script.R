@@ -3,7 +3,7 @@ library(netrw)
 
 # Problem 1
 # load data
-df = read.table("~/Desktop/sorted_directed_net.txt", sep='\t', header=FALSE)
+df = read.table("sorted_directed_net.txt", sep='\t', header=FALSE)
 colnames(df) = c("Node1", "Node2", "Weight")
 # create graph from data
 graph = graph.data.frame(df, directed=TRUE)
