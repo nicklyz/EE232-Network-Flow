@@ -51,6 +51,7 @@ sizes(community_propagation2)
 # Problem 4
 largest_community <- induced.subgraph(ug2, which(community_fastgreedy2$membership == which.max(sizes(community_fastgreedy2))))
 sub_community <- fastgreedy.community(largest_community, weights=E(largest_community)$Weight)
+modularity(sub_community)
 sizes(sub_community)
 
 # Problem 5
