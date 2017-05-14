@@ -2,7 +2,7 @@ library(igraph)
 library(MASS)
 
 # Reading Facebook graph
-setwd("./Documents/EE 232E/EE232-Network-Flow/project1/")
+# setwd("./Documents/EE 232E/EE232-Network-Flow/project1/")
 facebook_graph <- read.graph("facebook_combined.txt", directed=FALSE)
 
 # Finding core nodes
