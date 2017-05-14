@@ -1,5 +1,4 @@
 library(igraph)
-library(MASS)
 
 # Reading Facebook graph
 # setwd("./Documents/EE 232E/EE232-Network-Flow/project1/")
@@ -21,12 +20,13 @@ for (each_core_nodes in core_nodes) {
 average_degree <- mean(degrees_of_core_nodes)
 
 # Randomly pick a core node
+# randomly_picked_core_node <- 340
 randomly_picked_core_node <- sample(core_nodes, 1)
 
 # Construct a personal network using the picked core node
-neighborhood_of_core_node <- neighborhood(facebook_graph, order = 1, nodes = randomly_picked_core_node)
-personal_network <- induced.subgraph(facebook_graph, unlist(neighborhood_of_core_node))
-personal_network$label = sort(unlist(neighborhood_of_core_node))
+neighborhood_of_core_node <- unlist(neighborhood(facebook_graph, order = 1, nodes = randomly_picked_core_node))
+personal_network <- induced.subgraph(facebook_graph, neighborhood_of_core_node)
+personal_network$label = sort(neighborhood_of_core_node)
 
 # Fast greedy
 fast_greedy_community <- fastgreedy.community(personal_network)
@@ -45,3 +45,28 @@ infomap_community <- infomap.community(personal_network)
 modularity(infomap_community)
 sizes(infomap_community)
 plot(infomap_community, personal_network, edge.color = "light grey", vertex.label=NA, vertex.size=2, asp=9/16)
+
+# Removing the core node from the graph
+neighborhood_without_core_node <- neighborhood_of_core_node[neighborhood_of_core_node != randomly_picked_core_node]
+
+# Construct a personal network using the picked core node
+personal_network_without_core_node <- induced.subgraph(facebook_graph, neighborhood_without_core_node)
+personal_network_without_core_node$label = sort(neighborhood_without_core_node)
+
+# Fast greedy
+fast_greedy_community_without_core_node <- fastgreedy.community(personal_network_without_core_node)
+modularity(fast_greedy_community_without_core_node)
+sizes(fast_greedy_community_without_core_node)
+plot(fast_greedy_community_without_core_node, personal_network_without_core_node, edge.color = "light grey", vertex.label=NA, vertex.size=2, asp=9/16)
+
+# Edge betweenness
+edge_betweenness_community_without_code_node <- edge.betweenness.community(personal_network_without_code_node)
+modularity(edge_betweenness_community_without_code_node)
+sizes(edge_betweenness_community_without_code_node)
+plot(fast_greedy_community_without_code_node, personal_network_without_code_node, edge.color = "light grey", vertex.label=NA, vertex.size=2, asp=9/16)
+
+# Infomap
+infomap_community_without_code_node <- infomap.community(personal_network_without_code_node)
+modularity(infomap_community_without_code_node)
+sizes(infomap_community_without_code_node)
+plot(infomap_community_without_code_node, personal_network_without_code_node, edge.color = "light grey", vertex.label=NA, vertex.size=2, asp=9/16)
