@@ -69,7 +69,7 @@ sizes(edge_betweenness_community_without_core_node)
 plot(edge_betweenness_community_without_core_node, personal_network_without_core_node, edge.color = "light grey", vertex.label=NA, vertex.size=2, asp=9/16)
 
 # Infomap
-infomap_community_without_core_nore <- infomap.community(personal_network_without_core_node)
+infomap_community_without_core_node <- infomap.community(personal_network_without_core_node)
 modularity(infomap_community_without_core_node)
 sizes(infomap_community_without_core_node)
 plot(infomap_community_without_core_node, personal_network_without_core_node, edge.color = "light grey", vertex.label=NA, vertex.size=2, asp=9/16)
