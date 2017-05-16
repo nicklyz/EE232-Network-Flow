@@ -10,7 +10,7 @@ facebook_graph$label <- V(facebook_graph)
 # Finding core nodes
 core_nodes <- numeric()
 for (each_vertex in V(facebook_graph)) {
-  if (length(neighbors(facebook_graph, each_vertex)) > 200)
+  if (length(neighbors(facebook_graph, each_vertex)) >= 200)
     core_nodes <- c(core_nodes, each_vertex)
 }
 
@@ -137,7 +137,7 @@ for (each_core_node in core_nodes) {
   }
 }
 
-hist(all_embeddednesses, breaks = 50, main = "Distribution of Embeddedness", xlab = "Embeddedness", col="green")
+hist(all_embeddednesses, breaks = 50, main = "Distribution of Embeddedness", xlab = "Embeddedness", col="light blue")
 hist(all_dispersions, breaks = 50, main = "Distribution of Dispersion", xlab = "Dispersion", col="green")
 
 for (each_core_node in picked_core_nodes) {
@@ -178,7 +178,7 @@ for (each_core_node in picked_core_nodes) {
   }
 }
 
-hist(all_embeddednesses, breaks = 50, main = "Distribution of Embeddedness", xlab = "Embeddedness", col="green")
+hist(all_embeddednesses, breaks = 50, main = "Distribution of Embeddedness", xlab = "Embeddedness", col="light blue")
 hist(all_dispersions, breaks = 50, main = "Distribution of Dispersion", xlab = "Dispersion", col="green")
 
 picked_core_nodes <- c(1, 2048, 2234)
