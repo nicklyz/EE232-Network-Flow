@@ -9,8 +9,8 @@ is.connected(g)
 diameter(g)
 
 g_degree = degree(g)
-h = hist(g_degree, breaks = seq(from = min(network_degree), to = max(network_degree), by=1),
-         main = "Histogram of Degree of Facebook Graph", xlab = "Degree", ylab = "Frequency")
+h = hist(g_degree, breaks = seq(from = min(g_degree), to = max(g_degree), by=1),
+         main = "Degree Distribution of Facebook Graph", xlab = "Degree", ylab = "Frequency")
 x = h$mids
 y = h$density
 smoothSpline = smooth.spline(x, y, spar=0.35)
