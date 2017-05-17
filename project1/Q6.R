@@ -60,3 +60,6 @@ for(i in 1:length(core_nodes)) # consider each core node
   all_core_id <- c(all_core_id, i)
 }
 
+sapply(all_res_density, mean)
+sapply(all_res_community_size, mean)
+sapply(all_res_transitivity, mean)

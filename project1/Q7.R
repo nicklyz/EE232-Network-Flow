@@ -61,9 +61,11 @@ for (i in 1:length(egoNodes))
       }
     }
 
-    print(paste("Number of Circles: ", length(all_circles)))
-    print(paste("Max for walktrap: ",max(walk_trap_overlap_ratio)))
-    print(paste("Max for infomap: ",max(info_map_overlap_ratio)))
+    print(paste("Number of circles = ", length(all_circles)))
+    print(paste("Walktrap ratio (MAX) =  ",max(walk_trap_overlap_ratio)))
+    print(paste("Walktrap ratio (AVG) =  ",mean(walk_trap_overlap_ratio)))
+    print(paste("Infomap ratio (MAX) = ",max(info_map_overlap_ratio)))
+    print(paste("Infomap ratio (AVG) = ",mean(info_map_overlap_ratio)))
   
   }
 }
