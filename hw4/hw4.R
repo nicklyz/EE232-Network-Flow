@@ -1,4 +1,5 @@
 library(igraph)
+library(xts)
 setwd("./Documents/EE 232E/EE232-Network-Flow/hw4/")
 
 # Question 1
@@ -169,7 +170,65 @@ ep = eulerian(multi_graph)
 # 609.298086027
 
 # Using TSP Library
+etsp <- ETSP(G)
 # 498.033210104334
 
 # Question 6
+monday_time_series = list()
+for (csv_file_name in all_csv_file_names) {
+  monday_time_series[[csv_file_name]] = all_time_series[[csv_file_name]][weekdays(index(all_time_series[[csv_file_name]])) == 'Monday']
+}
 
+# Creating a cross correlation coefficient matrix
+monday_cross_correlation_coefficient_matrix = matrix(0, nrow = length(all_csv_file_names), ncol = length(all_csv_file_names))
+i = 1
+for (csv_file_name1 in all_csv_file_names) {
+  j = 1
+  for (csv_file_name2 in all_csv_file_names) {
+    if (csv_file_name1 != csv_file_name2) {
+      time_series1 = monday_time_series[[csv_file_name1]]
+      time_series2 = monday_time_series[[csv_file_name2]]
+      monday_cross_correlation_coefficient_matrix[i, j] = cross_correlation_coefficient(time_series1, time_series2)
+    }
+    j = j+1
+  }
+  i = i+1
+}
+
+monday_D = sqrt(2 * (1 - monday_cross_correlation_coefficient_matrix))
+hist(monday_D, main = "Histogram of weekly d", xlab = "d", col="light blue")
+
+monday_G = graph_from_adjacency_matrix(monday_D, weighted=TRUE, mode="undirected")
+monday_minst = mst(monday_G, weights = E(monday_G)$weight)
+
+V(monday_minst)$symbol = all_sectors$Symbol
+V(monday_minst)$color = unlist(lapply(V(monday_minst)$symbol, function(x) {color_per_sector[[symbol_to_sector[[x]]]]}))
+
+plot(minst, vertex.size = 5, edge.arrow.size=0, vertex.color = V(monday_minst)$color, vertex.label=NA)
+
+sum_of_p = 0
+for (vertex in V(monday_minst)) {
+  neighbors_of_vertex = neighbors(monday_minst, vertex)
+  sector_of_vertex = V(monday_minst)[vertex]$color
+  top_p = 0
+  bot_p = length(neighbors_of_vertex)
+  for (neighbor in neighbors_of_vertex) {
+    if (sector_of_vertex == V(monday_minst)[neighbor]$color) {
+      top_p = top_p + 1
+    }
+  }
+  sum_of_p = sum_of_p + (top_p / bot_p)
+}
+
+alpha_monday = sum_of_p / vcount(monday_minst)
+
+# Question 7
+hist(cross_correlation_coefficient_matrix, main = "Histogram of cross-correlation coefficients", xlab = "Cross-correlation coefficient", col="light blue")
+new_cross_correlation_coefficient_matrix = cross_correlation_coefficient_matrix
+new_cross_correlation_coefficient_matrix[which(new_cross_correlation_coefficient_matrix > 0.3)] = -1
+newD = sqrt(2 * (1 - new_cross_correlation_coefficient_matrix))
+newG = graph_from_adjacency_matrix(newD, weighted=TRUE, mode="undirected")
+newminst = mst(newG, weights = E(newG)$weight)
+V(newminst)$symbol = all_sectors$Symbol
+V(newminst)$color = unlist(lapply(V(newminst)$symbol, function(x) {color_per_sector[[symbol_to_sector[[x]]]]}))
+plot(newminst, vertex.size = 5, edge.arrow.size=0, vertex.color = V(newminst)$color, vertex.label=NA)
